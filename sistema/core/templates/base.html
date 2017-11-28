@@ -1,0 +1,56 @@
+{% load staticfiles %}
+<!doctype html>
+<html lang="pt-br">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="Sistema ERP simples">
+    <meta name="author" content="Vinicius da Costa Souza">
+    <link rel="icon" href="../../../../favicon.ico">
+    <title>Sistema COBAN</title>
+    <!-- script para plotar gráficos
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.4.0/Chart.bundle.js"></script> -->
+    <!-- Bootstrap core CSS -->
+    <link href="{% static "css/bootstrap.min.css" %}" rel="stylesheet">
+    <!-- Custom styles for this template -->
+    <link href="{% static "css/starter-template.css" %}" rel="stylesheet">
+  </head>
+
+  <body>
+    <nav class="navbar navbar-expand-md navbar-dark bg-primary fixed-top">
+      <a class="navbar-brand" href="{% url 'home' %}">Home</a>
+      <div class="collapse navbar-collapse" id="navbarsExampleDefault">
+        <ul class="navbar-nav mr-auto">
+          <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle" href="{% url 'home' %}" id="dropdown01" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Menu</a>
+            <div class="dropdown-menu" aria-labelledby="dropdown01">
+              <a class="dropdown-item" href="{% url 'cadastra_funcionario' %}">Cadastrar Funcionário</a>
+              <a class="dropdown-item" href="{% url 'consulta_funcionario' %}">Consultar Funcionários</a>
+              <a class="dropdown-item" href="{% url 'cadastra_venda' %}">Cadastrar Venda</a>
+              <a class="dropdown-item" href="{% url 'consulta_venda' %}">Consulta Vendas</a>
+              <a class="dropdown-item" href="{% url 'home' %}">Voltar</a>
+            </div>
+          </li>
+        </ul>
+      </div>
+    </nav>
+    <main role="main" class="container">
+
+    {% block content %}
+    <div class="container">
+        <h2>Bem vindo a página inicial</h2>
+    </div>
+    <br />
+    {% endblock %}
+
+    </main><!-- /.container -->
+
+    <!-- Bootstrap core JavaScript
+    ================================================== -->
+    <!-- Placed at the end of the document so the pages load faster -->
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+    <script>window.jQuery || document.write('<script src="{% static "js/jquery.min.js" %}"><\/script>')</script>
+    <script src="{% static "js/popper.min.js" %}"></script>
+    <script src="{% static "js/bootstrap.min.js" %}"></script>
+  </body>
+</html>

@@ -1,0 +1,44 @@
+{% extends "base.html" %}
+{% block content %}
+{% load widget_tweaks %}
+
+<div class="row">
+    <h1>Lista de vendas realizadas</h1>
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>Operação</th>
+                <th>Produto</th>
+                <th>Data</th>
+                <th>Valor</th>
+                <th>Troco</th>
+                <th>Prazo</th>
+                <th>Estado</th>
+                <th>Agência</th>
+                <th>Loja</th>
+                <th>Operador</th>
+                <th colspan="2" style="text-align:center">Ações</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for v in venda %}
+            <tr>
+                <td>{{ v.operacao }}</td>
+                <td>{{ v.produto }}</td>
+                <td>{{ v.data }}</td>
+                <td>{{ v.valor }}</td>
+                <td>{{ v.troco }}</td>
+                <td>{{ v.prazo }}</td>
+                <td>{{ v.get_estado_display }}</td>
+                <td>{{ v.agencia }}</td>
+                <td>{{ v.loja }}</td>
+                <td>{{ v.operador }}</td>
+                <td><a href="{%url 'edita_venda' v.id %}" class="btn btn-info btn-sm">Editar</a></td>
+                <td><a href="{%url 'deleta_venda' v.id %}" class="btn btn-danger btn-sm">Excluir</a></td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    <a class="btn btn-primary" href="{% url 'cadastra_venda'%}" role="button">Cadastrar nova venda</a>
+</div>
+{% endblock %}

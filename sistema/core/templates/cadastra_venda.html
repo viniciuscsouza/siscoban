@@ -1,0 +1,32 @@
+{% extends "base.html" %}
+{% load widget_tweaks %}
+
+{% block content %}
+<form action="" method="post">
+    {% csrf_token %}
+    <div>
+        <label for="{{ form.operacao.id_for_label }}">Nº Operação: </label>
+        {{ form.operacao|add_class:"form-control" }}
+        <label for="{{ form.produto.id_for_label }}">Produto: </label>
+        {{ form.produto|add_class:"form-control" }}
+        <label for="{{ form.data.id_for_label }}">Data: </label>
+        {{ form.data|add_class:"form-control" }}
+        <label for="{{ form.valor.id_for_label }}">Valor: </label>
+        {{ form.valor|add_class:"form-control" }}
+        <label for="{{ form.troco.id_for_label }}">Troco: </label>
+        {{ form.troco|add_class:"form-control" }}
+        <label for="{{ form.prazo.id_for_label }}">Prazo: </label>
+        {{ form.prazo|add_class:"form-control" }}
+        <label for="{{ form.estado.id_for_label }}">Estado: </label>
+        {{ form.estado|add_class:"form-control" }}
+        <label for="{{ form.agencia.id_for_label }}">Agência: </label>
+        {{ form.agencia|add_class:"form-control" }}
+        <label for="{{ form.loja.id_for_label }}">Loja: </label>
+        {{ form.loja|add_class:"form-control" }}
+        <label for="{{ form.operador.id_for_label }}">Vendedor: </label>
+        {{ form.operador|add_class:"form-control" }}
+    </div>
+    <br />
+    <button type="submit" class="btn btn-primary">Salvar</button>
+</form>
+{% endblock %}

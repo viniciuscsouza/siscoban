@@ -1,0 +1,32 @@
+{% extends "base.html" %}
+{% block content %}
+{% load widget_tweaks %}
+
+<div class="row">
+    <h1>Lista de funcionários</h1>
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>Chave</th>
+                <th>Categoria</th>
+                <th>Nome</th>
+                <th>E-mail</th>
+                <th colspan="2" style="text-align:center">Ações</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for f in funcionario %}
+            <tr>
+                <td>{{ f.chave }}</td>
+                <td>{{ f.get_categoria_display }}</td>
+                <td>{{ f.nome }}</td>
+                <td>{{ f.email }}</td>
+                <td><a href="{%url 'edita_funcionario' f.id %}" class="btn btn-info btn-sm">Editar</a></td>
+                <td><a href="{%url 'deleta_funcionario' f.id %}" class="btn btn-danger btn-sm">Excluir</a></td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    <a class="btn btn-primary" href="{% url 'cadastra_funcionario'%}" role="button">Cadastrar novo funcionário</a>
+</div>
+{% endblock %}
