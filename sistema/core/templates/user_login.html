@@ -1,0 +1,26 @@
+{% extends "login.html" %}
+{% load widget_tweaks %}
+{% block content %}
+
+    <form class="form-signin" action="" method="post">
+        <h2 class="form-signin-heading">Faça o login</h2>
+
+            {% if messages %}
+            <div class="alert alert-warning">
+                {% for m in messages %}
+                    {{ m }}
+                    {% endfor %}
+                </div>
+            {% endif %}
+            
+        {% csrf_token %}
+        <label for="">Usuário</label>
+        <input type="text" name="username" value="" class="form-control" placeholder="Informe o usuário" required autofocus/>
+        <label for="">Senha</label>
+        <input type="password" name="password" value="" class="form-control" placeholder="Informe a senha do usuário" required/>
+        <br />
+        <button type="submit" class="btn btn-lg btn-primary btn-block">Entrar</button>
+        <a href="{% url 'add_user' %}" class="btn btn-lg btn-secondary btn-block">Não tem cadastro?</a>
+    </form>
+
+{% endblock %}

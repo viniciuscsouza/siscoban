@@ -1,0 +1,42 @@
+{% extends "login.html" %}
+{% load widget_tweaks %}
+{% block content %}
+
+    <form class="form-signin" action="" method="post">
+        <h2 class="form-signin-heading">Criar usuário</h2>
+        {% if messages %}
+            <div class="alert alert-warning">
+            {% for m in messages %}
+                {{ m }}
+            {% endfor %}
+            </div>
+        {% endif %}
+
+        {% csrf_token %}
+
+        <div class="form-group">
+            <label for="{{ form.first_name.id_for_label }}">Nome</label>
+            {{ form.first_name|add_class:'form-control'|attr:'autofocus'|attr:'required' }}
+        </div>
+        <div class="form-group">
+            <label for="{{ form.last_name.id_for_label }}">Sobrenome</label>
+            {{ form.last_name|add_class:'form-control'|attr:'required' }}
+        </div>
+        <div class="form-group">
+            <label for="{{ form.email.id_for_label }}">E-mail</label>
+            {{ form.email|add_class:'form-control' }}
+        </div>
+        <div class="form-group">
+
+            <label for="{{ form.username.id_for_label }}">Usuário</label>
+            {{ form.username|add_class:'form-control' }}
+        </div>
+        <div class="form-group">
+            <label for="{{ form.password.id_for_label }}">Senha</label>
+            {{ form.password|add_class:'form-control'|attr:'type:password' }}
+        </div>
+        <button type="submit" class="btn btn-lg btn-primary btn-block">Cadastrar</button>
+        <a href="{% url 'user_login' %}" class="btn btn-lg btn-secondary btn-block">Fazer login</a>
+    </form>
+
+{% endblock %}

@@ -1,5 +1,6 @@
 from django.db import models
 from datetime import date
+from django.contrib.auth.models import User
 
 # Create your models here.
 
@@ -32,6 +33,7 @@ class Venda(models.Model):
     agencia = models.IntegerField(default="0000", verbose_name="Agência")
     loja = models.IntegerField(default="0000", verbose_name="Loja")
     operador = models.ForeignKey('Funcionario', verbose_name="Vendedor")
+    #user = models.ForeignKey(User)
 
     def __str__(self):
         return self.operacao
