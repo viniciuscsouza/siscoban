@@ -93,6 +93,8 @@ def add_user(request):
             u.save()
             messages.success(request, 'Usuário cadastrado com sucesso!')
             return redirect('user_login')
+        else:
+            messages.error(request, 'Não foi possível cadastrar o usuário')
     else:
         form = UserForm()
     return render(request, 'add_user.html', {'form': form})

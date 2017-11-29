@@ -13,8 +13,19 @@
         {% endif %}
 
         {% csrf_token %}
+        <label for="">Nome</label>
+        <input type="text" name="first_name" value="" class="form-control" placeholder="Digite seu nome" required autofocus/>
+        <label for="">Sobrenome</label>
+        <input type="text" name="last_name" value="" class="form-control" placeholder="Informe seu sobrenome" required/>
+        <label for="">E-mail</label>
+        <input type="text" name="email" value="" class="form-control" placeholder="Informe seu e-mail" />
+        <label for="">Usuário</label>
+        <input type="text" name="username" value="" class="form-control" placeholder="Escolha um nome de usuário" required/>
+        <label for="">Senha</label>
+        <input type="password" name="password" value="" class="form-control" placeholder="Escolha sua senha" required/>
 
-        <div class="form-group">
+
+        <!--div class="form-group">
             <label for="{{ form.first_name.id_for_label }}">Nome</label>
             {{ form.first_name|add_class:'form-control'|attr:'autofocus'|attr:'required' }}
         </div>
@@ -34,7 +45,7 @@
         <div class="form-group">
             <label for="{{ form.password.id_for_label }}">Senha</label>
             {{ form.password|add_class:'form-control'|attr:'type:password' }}
-        </div>
+        </div -->
         <button type="submit" class="btn btn-lg btn-primary btn-block">Cadastrar</button>
         <a href="{% url 'user_login' %}" class="btn btn-lg btn-secondary btn-block">Fazer login</a>
     </form>
