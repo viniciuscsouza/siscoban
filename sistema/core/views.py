@@ -1,4 +1,5 @@
 from django.shortcuts import render, redirect, get_object_or_404
+from django.db.models import Avg, Max, Min, Sum, Count, DecimalField
 from django.http import HttpResponse
 from .forms import FuncionarioForm, VendaForm, UserForm, VendaFuncionarioForm
 from .models import Funcionario, Venda, Comissao
@@ -21,7 +22,13 @@ def home(request):
     vm = Venda.objects.exclude(data__lt=m)
     vma = Venda.objects.exclude(data__lt=ma).exclude(data__gt=m)
 
-    return render(request, "base.html", {"vendames": vm, "vendamesanterior": vma})
+    tmv = vm.aggregate(Avg('valor', output_field=DecimalField(max_digits=10, decimal_places=2)))
+    tmva = vma.aggregate(Avg('valor', output_field=DecimalField(max_digits=10, decimal_places=2)))
+    tmt = vm.aggregate(Avg('troco', output_field=DecimalField(max_digits=10, decimal_places=2)))
+    tmta = vma.aggregate(Avg('troco', output_field=DecimalField(max_digits=10, decimal_places=2)))
+
+    return render(request, "base.html", {"vendames": vm, "vendamesanterior": vma,
+    "ticketmv":tmv, "ticketmva":tmva,"ticketmt":tmt, "ticketmta":tmta})
 
 @login_required
 def cadastra_funcionario(request):
@@ -143,14 +150,69 @@ def user_logout(request):
 @login_required
 def venda_funcionario(request):
     if request.method == 'POST':
-        operador = request.POST.get('operador')
+        queryset = request.POST.get('operador')
         hoje = date.today()
         m = date(hoje.year, hoje.month, 1)
         ma = date(hoje.year, hoje.month-1, 1)
-        vm = Venda.objects.exclude(data__lt=m).filter(operador=operador)
-        vma = Venda.objects.exclude(data__lt=ma).exclude(data__gt=m).filter(operador=operador)
+        vm = Venda.objects.exclude(data__lt=m).filter(operador=queryset)
+        vma = Venda.objects.exclude(data__lt=ma).exclude(data__gt=m).filter(operador=queryset)
+
+        tmv = vm.aggregate(Avg('valor', output_field=DecimalField(max_digits=10, decimal_places=2)))
+        tmva = vma.aggregate(Avg('valor', output_field=DecimalField(max_digits=10, decimal_places=2)))
+        tmt = vm.aggregate(Avg('troco', output_field=DecimalField(max_digits=10, decimal_places=2)))
+        tmta = vma.aggregate(Avg('troco', output_field=DecimalField(max_digits=10, decimal_places=2)))
+
         form = VendaFuncionarioForm()
-        return render(request, "venda_funcionario.html", {"form":form, "vendames":vm, "vendamesanterior":vma})
+        return render(request, "venda_funcionario.html", {
+    "form":form, "vendames":vm, "vendamesanterior":vma, "ticketmv":tmv, "ticketmva":tmva,
+    "ticketmt":tmt, "ticketmta":tmta})
+
     else:
         form = VendaFuncionarioForm()
     return render(request, "venda_funcionario.html", {"form":form})
+
+
+'''
+@login_required
+def grafico(request):
+    queryset = Venda.objects.all()
+    operadores =
+'''
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+#fim
