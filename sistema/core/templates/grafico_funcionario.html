@@ -1,0 +1,49 @@
+{% extends "base.html" %}
+{% block content %}
+{% load widget_tweaks %}
+<div class="container">
+        <h1>Escolha o operador:</h1>
+        <br />
+    <form action="" method="post">
+        {% csrf_token %}
+        <div>
+            <label for="{{ form.operador.id_for_label }}">Escolha a chave do operador: </label>
+            {{ form.operador|add_class:"form-control" }}
+        </div>
+        <div>
+            <br />
+            <button type="submit" class="btn btn-primary">Gerar gráfico:</button>
+        </div>
+    </form>
+    <hr />
+</div>
+    <canvas class="line-chart"></canvas>
+
+    <p>{{ valores }}</p>
+    <p>{{ datas }}</p>
+
+{% endblock %}
+
+{% block scripts %}
+<script>
+
+var ctx = document.getElementsByClassName("line-chart");
+var valor = JSON.parse('{{ valores|safe }}');
+var data = JSON.parse('{{ valores|safe }}');
+    // type, data e options
+    var chartGraph = new Chart(ctx, {
+        type:'line',
+        data: {
+            labels: valor,
+            datasets: [{
+                label:"Taxa de vendas",
+                data: data,
+                borderWidth: 6,
+                borderColor: 'rgba(77, 166, 253, 0.85)',
+                backgroundColor: 'transparent',
+            }]
+        }
+
+    });
+</script>
+{% endblock %}

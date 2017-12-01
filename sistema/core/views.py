@@ -10,6 +10,12 @@ from django.contrib import messages
 from datetime import date
 import calendar
 
+# Libs para gráfico
+from django.utils.encoding import force_text
+from django.core.serializers.json import DjangoJSONEncoder
+from django.core.serializers import serialize
+import json
+
 # Create your views here.
 
 @login_required
@@ -163,27 +169,36 @@ def venda_funcionario(request):
         tmta = vma.aggregate(Avg('troco', output_field=DecimalField(max_digits=10, decimal_places=2)))
 
         form = VendaFuncionarioForm()
+
         return render(request, "venda_funcionario.html", {
-    "form":form, "vendames":vm, "vendamesanterior":vma, "ticketmv":tmv, "ticketmva":tmva,
-    "ticketmt":tmt, "ticketmta":tmta})
+        "form":form, "vendames":vm, "vendamesanterior":vma, "ticketmv":tmv,
+        "ticketmva":tmva, "ticketmt":tmt, "ticketmta":tmta})
 
     else:
         form = VendaFuncionarioForm()
     return render(request, "venda_funcionario.html", {"form":form})
 
-
-'''
 @login_required
-def grafico(request):
-    queryset = Venda.objects.all()
-    operadores =
-'''
+def grafico_funcionario(request):
+    if request.method == 'POST':
+        queryset = request.POST.get('operador')
+
+        hoje = date.today()
+        m = date(hoje.year, hoje.month, 1)
+        ma = date(hoje.year, hoje.month-1, 1)
+
+        valor = Venda.objects.filter(operador__id=queryset).values()
+        valorserializado = json.dumps(list(valor), cls=DjangoJSONEncoder)
 
 
+        form = VendaFuncionarioForm()
+        return render(request, "grafico_funcionario.html", {"form":form,
+        "valores":valorserializado})
 
+    else:
 
-
-
+        form = VendaFuncionarioForm()
+        return render(request, "grafico_funcionario.html", {})
 
 
 
