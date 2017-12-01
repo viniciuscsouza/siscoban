@@ -16,3 +16,8 @@ class UserForm(forms.ModelForm):
     class Meta:
         model = User
         fields = ('first_name', 'last_name', 'email', 'username', 'password')
+
+class VendaFuncionarioForm(forms.ModelForm):
+    class Meta:
+        model = Venda
+        fields = ('operador',)

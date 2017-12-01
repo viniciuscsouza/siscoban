@@ -15,4 +15,5 @@ urlpatterns = [
     url(r'^login-usuario/$', views.user_login, name='user_login'),
     url(r'^logout-usuario/$', views.user_logout, name='user_logout'),
     url(r'^altera-senha/$', views.change_password, name='change_password'),
+    url(r'^venda-funcionario/$', views.venda_funcionario, name='venda_funcionario'),
 ]

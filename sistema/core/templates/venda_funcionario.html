@@ -1,0 +1,84 @@
+{% extends "base.html" %}
+{% load widget_tweaks %}
+{% block content %}
+
+<div class="container">
+    <h1>Vendas realizadas por funcionário</h1>
+    <br />
+<form action="" method="post">
+    {% csrf_token %}
+    <div>
+        <label for="{{ form.operador.id_for_label }}">Escolha a chave do operador: </label>
+        {{ form.operador|add_class:"form-control" }}
+    </div>
+    <div>
+        <br />
+        <button type="submit" class="btn btn-primary">Enviar</button>
+    </div>
+</form>
+<hr />
+<div class="container-fluid">
+    <h1>Vendas no mês atual</h1>
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>Operação</th>
+                <th>Produto</th>
+                <th>Data</th>
+                <th>Valor (R$)</th>
+                <th>Troco (R$)</th>
+                <th>Prazo</th>
+                <th>Estado</th>
+                <th>Agência</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for v in vendames %}
+            <tr>
+                <td>{{ v.operacao }}</td>
+                <td>{{ v.produto }}</td>
+                <td>{{ v.data }}</td>
+                <td>R$ {{ v.valor }}</td>
+                <td>R$ {{ v.troco }}</td>
+                <td>{{ v.prazo }}</td>
+                <td>{{ v.get_estado_display }}</td>
+                <td>{{ v.agencia }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    <hr />
+    <h1>Vendas no mês anterior</h1>
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>Operação</th>
+                <th>Produto</th>
+                <th>Data</th>
+                <th>Valor (R$)</th>
+                <th>Troco (R$)</th>
+                <th>Prazo</th>
+                <th>Estado</th>
+                <th>Agência</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for v in vendamesanterior %}
+            <tr>
+                <td>{{ v.operacao }}</td>
+                <td>{{ v.produto }}</td>
+                <td>{{ v.data }}</td>
+                <td>R$ {{ v.valor }}</td>
+                <td>R$ {{ v.troco }}</td>
+                <td>{{ v.prazo }}</td>
+                <td>{{ v.get_estado_display }}</td>
+                <td>{{ v.agencia }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+</div>
+</div>
+
+{% endblock %}

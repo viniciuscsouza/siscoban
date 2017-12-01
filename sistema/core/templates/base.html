@@ -31,6 +31,9 @@
               <a class="dropdown-item" href="{% url 'consulta_funcionario' %}">Consultar Funcionários</a>
               <a class="dropdown-item" href="{% url 'cadastra_venda' %}">Cadastrar Venda</a>
               <a class="dropdown-item" href="{% url 'consulta_venda' %}">Consultar Vendas</a>
+              <div class="dropdown-divider"></div>
+              <a class="dropdown-item" href="{% url 'venda_funcionario' %}">Vendas por operador</a>
+              </div>
             </div>
           </li>
         </ul>
@@ -125,7 +128,8 @@
                     {% endfor %}
                 </tbody>
             </table>
-        </div>
+        <a class="btn btn-primary" href="{% url 'venda_funcionario' %}">Consultar vendas por operador</a>
+    </div>
     </div>
     <br />
     {% endblock %}

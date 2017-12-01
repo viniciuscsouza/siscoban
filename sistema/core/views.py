@@ -1,6 +1,6 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from django.http import HttpResponse
-from .forms import FuncionarioForm, VendaForm, UserForm
+from .forms import FuncionarioForm, VendaForm, UserForm, VendaFuncionarioForm
 from .models import Funcionario, Venda, Comissao
 from django.contrib.auth import authenticate, login, logout, update_session_auth_hash
 from django.contrib.auth.forms import PasswordChangeForm
@@ -139,3 +139,18 @@ def change_password(request):
 def user_logout(request):
     logout(request)
     return redirect('user_login')
+
+@login_required
+def venda_funcionario(request):
+    if request.method == 'POST':
+        operador = request.POST.get('operador')
+        hoje = date.today()
+        m = date(hoje.year, hoje.month, 1)
+        ma = date(hoje.year, hoje.month-1, 1)
+        vm = Venda.objects.exclude(data__lt=m).filter(operador=operador)
+        vma = Venda.objects.exclude(data__lt=ma).exclude(data__gt=m).filter(operador=operador)
+        form = VendaFuncionarioForm()
+        return render(request, "venda_funcionario.html", {"form":form, "vendames":vm, "vendamesanterior":vma})
+    else:
+        form = VendaFuncionarioForm()
+    return render(request, "venda_funcionario.html", {"form":form})
