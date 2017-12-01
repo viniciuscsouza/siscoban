@@ -14,6 +14,10 @@ class Funcionario(models.Model):
     nome = models.CharField(max_length=100, verbose_name="Nome")
     email = models.CharField(max_length=100, verbose_name="E-mail")
 
+    class Meta:
+        verbose_name = "Funcionário"
+        verbose_name_plural = "Funcionários"
+
     def __str__(self):
         return self.chave
 
@@ -35,6 +39,11 @@ class Venda(models.Model):
     operador = models.ForeignKey('Funcionario', verbose_name="Vendedor")
     #user = models.ForeignKey(User)
 
+    class Meta:
+        verbose_name = "Venda"
+        verbose_name_plural = "Vendas"
+
+
     def __str__(self):
         return self.operacao
 
@@ -44,8 +53,17 @@ class Produto(models.Model):
     linha = models.IntegerField(default="0000", verbose_name="Linha")
     convenio = models.CharField(max_length=100, verbose_name="Convênio")
 
+    class Meta:
+        verbose_name = "Produto"
+        verbose_name_plural = "Produtos"
+
     def __str__(self):
         return self.nome
 
 class Comissao(models.Model):
+
+    class Meta:
+        verbose_name = "Comissão"
+        verbose_name_plural = "Comissões"
+
     pass

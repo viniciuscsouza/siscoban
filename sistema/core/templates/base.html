@@ -52,11 +52,80 @@
 
       </div>
     </nav>
-    <main role="main" class="container">
+    <main role="main" class="container-fluid">
 
     {% block content %}
-    <div class="container">
-        <h4>Bem vindo a página inicial</h4>
+
+        {% load widget_tweaks %}
+        <div class="container-fluid">
+            <h1>Vendas no mês atual</h1>
+            <table class="table table-striped">
+                <thead>
+                    <tr>
+                        <th>Operação</th>
+                        <th>Produto</th>
+                        <th>Data</th>
+                        <th>Valor (R$)</th>
+                        <th>Troco (R$)</th>
+                        <th>Prazo</th>
+                        <th>Estado</th>
+                        <th>Agência</th>
+                        <th>Loja</th>
+                        <th>Operador</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for v in vendames %}
+                    <tr>
+                        <td>{{ v.operacao }}</td>
+                        <td>{{ v.produto }}</td>
+                        <td>{{ v.data }}</td>
+                        <td>R$ {{ v.valor }}</td>
+                        <td>R$ {{ v.troco }}</td>
+                        <td>{{ v.prazo }}</td>
+                        <td>{{ v.get_estado_display }}</td>
+                        <td>{{ v.agencia }}</td>
+                        <td>{{ v.loja }}</td>
+                        <td>{{ v.operador }}</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+            <hr />
+            <h1>Vendas no mês anterior</h1>
+            <table class="table table-striped">
+                <thead>
+                    <tr>
+                        <th>Operação</th>
+                        <th>Produto</th>
+                        <th>Data</th>
+                        <th>Valor (R$)</th>
+                        <th>Troco (R$)</th>
+                        <th>Prazo</th>
+                        <th>Estado</th>
+                        <th>Agência</th>
+                        <th>Loja</th>
+                        <th>Operador</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for v in vendamesanterior %}
+                    <tr>
+                        <td>{{ v.operacao }}</td>
+                        <td>{{ v.produto }}</td>
+                        <td>{{ v.data }}</td>
+                        <td>R$ {{ v.valor }}</td>
+                        <td>R$ {{ v.troco }}</td>
+                        <td>{{ v.prazo }}</td>
+                        <td>{{ v.get_estado_display }}</td>
+                        <td>{{ v.agencia }}</td>
+                        <td>{{ v.loja }}</td>
+                        <td>{{ v.operador }}</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
     </div>
     <br />
     {% endblock %}

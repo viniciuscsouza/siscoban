@@ -6,13 +6,22 @@ from django.contrib.auth import authenticate, login, logout, update_session_auth
 from django.contrib.auth.forms import PasswordChangeForm
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages
+from datetime import date
+import calendar
 
 # Create your views here.
 
 @login_required
 def home(request):
-    #form = FuncionarioForm()
-    return render(request, "base.html", {})
+
+    hoje = date.today()
+    m = date(hoje.year, hoje.month, 1)
+    ma = date(hoje.year, hoje.month-1, 1)
+
+    vm = Venda.objects.exclude(data__lt=m)
+    vma = Venda.objects.exclude(data__lt=ma).exclude(data__gt=m)
+
+    return render(request, "base.html", {"vendames": vm, "vendamesanterior": vma})
 
 @login_required
 def cadastra_funcionario(request):

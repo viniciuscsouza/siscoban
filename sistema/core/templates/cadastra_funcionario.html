@@ -3,21 +3,23 @@
 
 {% block content %}
 <br />
-<h2>Cadastrar Funcionário</h2>
+<div class="container">
+    <h2>Cadastrar Funcionário</h2>
 
-<form action="" method="post">
-    {% csrf_token %}
-    <div class="form-group">
-        <label for="{{ form.chave.id_for_label }}">Chave: </label>
-        {{ form.chave|add_class:"form-control"}}
-        <label for="{{ form.categoria.id_for_label }}">Categoria: </label>
-        {{ form.categoria|add_class:"form-control"}}
-        <label for="{{ form.nome.id_for_label }}">Nome: </label>
-        {{ form.nome|add_class:"form-control"}}
-        <label for="{{ form.email.id_for_label }}">E-mail: </label>
-        {{ form.email|add_class:"form-control"}}
-        <br />
-        <button type="submit" class="btn btn-primary">Salvar</button>
-    </div>
-</form>
+    <form action="" method="post">
+        {% csrf_token %}
+        <div class="form-group">
+            <label for="{{ form.chave.id_for_label }}">Chave: </label>
+            {{ form.chave|add_class:"form-control"}}
+            <label for="{{ form.categoria.id_for_label }}">Categoria: </label>
+            {{ form.categoria|add_class:"form-control"}}
+            <label for="{{ form.nome.id_for_label }}">Nome: </label>
+            {{ form.nome|add_class:"form-control"}}
+            <label for="{{ form.email.id_for_label }}">E-mail: </label>
+            {{ form.email|add_class:"form-control"}}
+            <br />
+            <button type="submit" class="btn btn-primary">Salvar</button>
+        </div>
+    </form>
+</div>
 {% endblock %}
