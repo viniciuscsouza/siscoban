@@ -100,7 +100,7 @@ def cadastra_venda(request):
 
 @login_required
 def consulta_venda(request):
-    venda = Venda.objects.all()
+    venda = Venda.objects.all().order_by('-data')
     return render(request, "consulta_venda.html", {"venda": venda})
 
 @login_required
