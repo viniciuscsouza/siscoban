@@ -98,8 +98,8 @@
                 </tbody>
             </table>
             <br />
-            <h4>Ticket médio valor: R$ {{ ticketmv.valor__avg }}</h4>
-            <h4>Ticket médio troco: R$ {{ ticketmt.troco__avg }}</h4>
+        <!--    <h4>Ticket médio valor: R$ {{ ticketmv.valor__avg }}</h4>
+            <h4>Ticket médio troco: R$ {{ ticketmt.troco__avg }}</h4> -->
             <hr />
             <h1>Vendas no mês anterior</h1>
             <table class="table table-striped">
@@ -134,8 +134,8 @@
                     {% endfor %}
                 </tbody>
             </table>
-            <h4>Ticket médio valor: R$ {{ ticketmva.valor__avg }}</h4>
-            <h4>Ticket médio troco: R$ {{ ticketmta.troco__avg }}</h4>
+        <!--    <h4>Ticket médio valor: R$ {{ ticketmva.valor__avg }}</h4>
+            <h4>Ticket médio troco: R$ {{ ticketmta.troco__avg }}</h4> -->
             <br />
         <a class="btn btn-primary" href="{% url 'venda_funcionario' %}">Consultar vendas por operador</a>
     </div>

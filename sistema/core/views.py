@@ -22,19 +22,31 @@ import json
 def home(request):
 
     hoje = date.today()
-    m = date(hoje.year, hoje.month, 1)
-    ma = date(hoje.year, hoje.month-1, 1)
+    mesatual = date(hoje.year, hoje.month, 1)
+    mesanterior = date(hoje.year, hoje.month-1, 1)
 
-    vm = Venda.objects.exclude(data__lt=m)
-    vma = Venda.objects.exclude(data__lt=ma).exclude(data__gt=m)
+    vendamesatual = Venda.objects.exclude(data__lt=mesatual).order_by('-data')
+    vendamesanterior = Venda.objects.filter(
+    data__lt=mesatual).exclude(data__lt=mesanterior).order_by('-data')
 
-    tmv = vm.aggregate(Avg('valor', output_field=DecimalField(max_digits=10, decimal_places=2)))
-    tmva = vma.aggregate(Avg('valor', output_field=DecimalField(max_digits=10, decimal_places=2)))
-    tmt = vm.aggregate(Avg('troco', output_field=DecimalField(max_digits=10, decimal_places=2)))
-    tmta = vma.aggregate(Avg('troco', output_field=DecimalField(max_digits=10, decimal_places=2)))
+    mediavalormes = vendamesatual.aggregate(
+    Avg('valor', output_field=DecimalField(max_digits=10, decimal_places=2))
+    )
+    mediavalormesanterior = vendamesanterior.aggregate(
+    Avg('valor', output_field=DecimalField(max_digits=10, decimal_places=2))
+    )
+    mediatrocomes = vendamesatual.aggregate(
+    Avg('troco', output_field=DecimalField(max_digits=10, decimal_places=2))
+    )
+    mediatrocomesanterior = vendamesanterior.aggregate(
+    Avg('troco', output_field=DecimalField(max_digits=10, decimal_places=2))
+    )
 
-    return render(request, "base.html", {"vendames": vm, "vendamesanterior": vma,
-    "ticketmv":tmv, "ticketmva":tmva,"ticketmt":tmt, "ticketmta":tmta})
+    return render(request, "base.html", {
+    "vendames": vendamesatual, "vendamesanterior": vendamesanterior,
+    "ticketmv":mediavalormes, "ticketmva":mediavalormesanterior,
+    "ticketmt":mediatrocomes, "ticketmta":mediatrocomesanterior
+    })
 
 @login_required
 def cadastra_funcionario(request):
@@ -52,7 +64,9 @@ def cadastra_funcionario(request):
 @login_required
 def consulta_funcionario(request):
     funcionario = Funcionario.objects.all()
-    return render(request, "consulta_funcionario.html", {"funcionario": funcionario})
+    return render(request, "consulta_funcionario.html", {
+    "funcionario": funcionario
+    })
 
 @login_required
 def deleta_funcionario(request, id):
@@ -157,23 +171,41 @@ def user_logout(request):
 def venda_funcionario(request):
     if request.method == 'POST':
         queryset = request.POST.get('operador')
-        hoje = date.today()
-        m = date(hoje.year, hoje.month, 1)
-        ma = date(hoje.year, hoje.month-1, 1)
-        vm = Venda.objects.exclude(data__lt=m).filter(operador=queryset)
-        vma = Venda.objects.exclude(data__lt=ma).exclude(data__gt=m).filter(operador=queryset)
 
-        tmv = vm.aggregate(Avg('valor', output_field=DecimalField(max_digits=10, decimal_places=2)))
-        tmva = vma.aggregate(Avg('valor', output_field=DecimalField(max_digits=10, decimal_places=2)))
-        tmt = vm.aggregate(Avg('troco', output_field=DecimalField(max_digits=10, decimal_places=2)))
-        tmta = vma.aggregate(Avg('troco', output_field=DecimalField(max_digits=10, decimal_places=2)))
+        hoje = date.today()
+        mesatual = date(hoje.year, hoje.month, 1)
+        mesanterior = date(hoje.year, hoje.month-1, 1)
+
+        vendamesatual = Venda.objects.exclude(data__lt=mesatual)\
+        .filter(operador=queryset)\
+        .order_by('-data')
+
+        vendamesanterior = Venda.objects.filter(data__lt=mesatual)\
+        .exclude(data__lt=mesanterior)\
+        .filter(operador=queryset)\
+        .order_by('-data')
+
+        mediavalormes = vendamesatual.aggregate(
+        Avg('valor', output_field=DecimalField(max_digits=10, decimal_places=2))
+        )
+        mediavalormesanterior = vendamesanterior.aggregate(
+        Avg('valor', output_field=DecimalField(max_digits=10, decimal_places=2))
+        )
+        mediatrocomes = vendamesatual.aggregate(
+        Avg('troco', output_field=DecimalField(max_digits=10, decimal_places=2))
+        )
+        mediatrocomesanterior = vendamesanterior.aggregate(
+        Avg('troco', output_field=DecimalField(max_digits=10, decimal_places=2))
+        )
 
         form = VendaFuncionarioForm()
 
         return render(request, "venda_funcionario.html", {
-        "form":form, "vendames":vm, "vendamesanterior":vma, "ticketmv":tmv,
-        "ticketmva":tmva, "ticketmt":tmt, "ticketmta":tmta})
-
+        "form":form,
+        "vendames": vendamesatual, "vendamesanterior": vendamesanterior,
+        "ticketmv":mediavalormes, "ticketmva":mediavalormesanterior,
+        "ticketmt":mediatrocomes, "ticketmta":mediatrocomesanterior
+        })
     else:
         form = VendaFuncionarioForm()
     return render(request, "venda_funcionario.html", {"form":form})
@@ -183,9 +215,9 @@ def grafico_funcionario(request):
     if request.method == 'POST':
         queryset = request.POST.get('operador')
 
-        hoje = date.today()
-        m = date(hoje.year, hoje.month, 1)
-        ma = date(hoje.year, hoje.month-1, 1)
+        hoje = VendaManager.hoje
+        m = VendaManager.mesatual
+        ma = VendaManager.mesanterior
 
         valor = Venda.objects.filter(operador__id=queryset).values()
         valorserializado = json.dumps(list(valor), cls=DjangoJSONEncoder)
